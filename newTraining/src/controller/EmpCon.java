@@ -20,10 +20,11 @@ public class EmpCon  implements EmpController{
 
     @Override
     public void display() {
-        for( Employee  i:  e) {
-            System.out.println("emp id "+ i.getId());
-            System.out.println("emp name "+ i.getEname());
-        }
+//        for( Employee  i:  e) {
+//            System.out.println("emp id "+ i.getId());
+//            System.out.println("emp name "+ i.getEname());
+//        }
+        e.forEach(System.out::print);
     }
 
     @Override
