@@ -1,5 +1,7 @@
 package controller;
 
+import databaseConnect.EmployeeImp;
+import databaseConnect.EmployeeInterface;
 import model.Employee;
 
 import java.io.FileInputStream;
@@ -12,9 +14,11 @@ import java.util.List;
 
 public class EmpCon  implements EmpController{
     ArrayList<Employee> e=new ArrayList<Employee>();
+    EmployeeInterface db=new EmployeeImp();
     @Override
     public void addEmp(Employee emp) {
-        e.add(emp);
+    //    e.add(emp);
+        db.insertEmp(emp);
         System.out.print(" Student Saved Succfully\n");
     }
 
@@ -24,7 +28,8 @@ public class EmpCon  implements EmpController{
 //            System.out.println("emp id "+ i.getId());
 //            System.out.println("emp name "+ i.getEname());
 //        }
-        e.forEach(System.out::print);
+    //    e.forEach(System.out::print);
+        db.selectEmp();
     }
 
     @Override
@@ -69,5 +74,17 @@ public class EmpCon  implements EmpController{
         }
         display();
 
+    }
+
+    @Override
+    public void update(Employee em) {
+        db.updateEmp(em);
+        System.out.print(" Student Update Succfully\n");
+    }
+
+    @Override
+    public void del(int id) {
+        db.deleteEmp(id);
+        System.out.print(" Student deleted Succfully\n");
     }
 }

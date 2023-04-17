@@ -9,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Scanner;
+import java.util.function.BiPredicate;
 
 public class main2 {
    static int a=0;
@@ -25,12 +26,12 @@ public class main2 {
 //            throw new RuntimeException(e);
 //        }
 //    }
-    public static void main(String[] args)  {
+    public static void main(String[] args) throws IOException {
 
         int[] arr=new int[5];
         main2 main=new main2();
         main.add();
-//        System.out.println(main.b);
+//        System.out.println(main.b);1
 //        System.out.println(a);
 
     }
@@ -41,8 +42,11 @@ public class main2 {
         uName = reader.readLine();
         System.out.println("Enter the password");
         pass = reader.readLine();
+          BiPredicate<String,String> tst=(x,y)->x.equals("nnv") && y.equals("paa");
+
+
         try {
-            if (uName.equals("nnv") && pass.equals("paa")) {
+            if (tst.test(uName,pass)) {
                 System.out.println("User login Successfully");
                 add();
             } else {
@@ -62,7 +66,7 @@ public class main2 {
             System.out.println("Welcome ");
 
             for (int j = 0; j != 1; ) {
-                System.out.print("Enter the choice\n1.add\n2.display\n3.seial\n4.deserial\n5.sort name\n6.sort id\n7.exit\n");
+                System.out.print("Enter the choice\n1.add\n2.display\n3.seial\n4.deserial\n5.sort name\n6.sort id\n7.update\n8.delete\n9.exit\n");
                 i = sc.nextInt();
                 switch (i) {
                     case 1:
@@ -98,6 +102,21 @@ public class main2 {
                         break;
                     case 6:
                         controllor.sort(2);
+                        break;
+                    case 7:
+                        System.out.print("Enter Student id\n");
+                        int ids = sc.nextInt();
+                        System.out.print("Enter Student name\n");
+                        String s1 = sc.next();
+                            controllor.update(new Employee(
+                                    ids,s1
+                            ));
+
+                        break;
+                    case 8:
+                        System.out.print("Enter Student id\n");
+                        int del = sc.nextInt();
+                        controllor.del(del);
                         break;
                     default:
                         j = 1;

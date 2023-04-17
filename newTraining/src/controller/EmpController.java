@@ -12,4 +12,9 @@ public interface EmpController {
      void deserial();
 
      void sort(int id);
+
+     void update(Employee em);
+
+     void del(int id);
+
 }
