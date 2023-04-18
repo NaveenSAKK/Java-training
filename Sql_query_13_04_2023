@@ -1,0 +1,7 @@
+
+45. List all the emps who are working since 1st April 1982.
+select *  from emp  where HIREDATE > to_date( '01-04-1980','DD-MM-YYYY')
+46. List the empno, ename, sal, Daily sal of all emps.
+SELECT   empno ,ename,sal, FLOOR(sal/30) "DAily Salary" FROM emp
+47. List the empno, ename, sal, experience of all ‘Analysts’.
+SELECT  empno ,ename,sal, FLOOR((to_date( HIREDATE)-to_date( SYSDATE))  /365)  "exp" FROM emp where job = 'ANALYST'
