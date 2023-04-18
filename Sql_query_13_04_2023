@@ -1,13 +1,18 @@
 
 45. List all the emps who are working since 1st April 1982.
+ANS:
 select *  from emp  where HIREDATE > to_date( '01-04-1980','DD-MM-YYYY')
 46. List the empno, ename, sal, Daily sal of all emps.
+ANS:
 SELECT   empno ,ename,sal, FLOOR(sal/30) "DAily Salary" FROM emp
 47. List the empno, ename, sal, experience of all ‘Analysts’.
+ANS:
 SELECT  empno ,ename,sal, FLOOR((to_date( HIREDATE)-to_date( SYSDATE))  /365)  "exp" FROM emp where job = 'ANALYST'
 
 
 To write a  Cursor to display the list of employees who are Working as a Managers or Analyst
+ANS:
+---------------------------------------------------------------------------------------------------
 declare
     emprec emp%rowtype;
     cursor mycur is select * from emp where job='MANAGER' or job='ANALYST';
@@ -22,8 +27,30 @@ begin
     close mycur;
 end;
 /
-Write PL/SQL code in Cursor to display employee names and salary
 
+---------------------------------------------------------------------------------------------------
+using parameter
+
+---------------------------------------------------------------------------------------------------
+declare
+    emprec emp%rowtype;
+    cursor mycur(par1 varchar2,par2 varchar2) is select * from emp where job=par1 or job=par2;
+begin
+    open mycur(&man,&an);
+    dbms_output.put_line('empno' || '     ' || 'ename' || '    ' || 'deptno' ||'  '|| 'job'); 
+    loop
+    fetch mycur into emprec;
+    exit when mycur%NOTFOUND;    
+    dbms_output.put_line(emprec.empno || '     ' || emprec.ename || '     ' || emprec.deptno ||'    '|| emprec.job); 
+    end loop;
+    close mycur;
+end;
+/
+
+---------------------------------------------------------------------------------------------------
+Write PL/SQL code in Cursor to display employee names and salary
+Ans:
+---------------------------------------------------------------------------------------------------
 declare
     emprec emp%rowtype;
     cursor mycur is select * from emp;
@@ -38,8 +65,12 @@ begin
     close mycur;
 end;
 /
-Write PL/SQL code in Procedure to find the Reverse of the  number
 
+---------------------------------------------------------------------------------------------------
+
+Write PL/SQL code in Procedure to find the Reverse of the  number
+Ans:
+---------------------------------------------------------------------------------------------------
 declare 
    
    n number :=&num;
@@ -60,3 +91,5 @@ begin
     end loop;
  dbms_output.put_line(' reverse: ' || rev); 
 end;
+/
+---------------------------------------------------------------------------------------------------
