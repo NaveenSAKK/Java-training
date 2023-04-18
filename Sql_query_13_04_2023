@@ -5,3 +5,58 @@ select *  from emp  where HIREDATE > to_date( '01-04-1980','DD-MM-YYYY')
 SELECT   empno ,ename,sal, FLOOR(sal/30) "DAily Salary" FROM emp
 47. List the empno, ename, sal, experience of all ‘Analysts’.
 SELECT  empno ,ename,sal, FLOOR((to_date( HIREDATE)-to_date( SYSDATE))  /365)  "exp" FROM emp where job = 'ANALYST'
+
+
+To write a  Cursor to display the list of employees who are Working as a Managers or Analyst
+declare
+    emprec emp%rowtype;
+    cursor mycur is select * from emp where job='MANAGER' or job='ANALYST';
+begin
+    open mycur;
+    dbms_output.put_line('empno' || '     ' || 'ename' || '    ' || 'deptno' ||'  '|| 'job'); 
+    loop
+    fetch mycur into emprec;
+    exit when mycur%NOTFOUND;    
+    dbms_output.put_line(emprec.empno || '     ' || emprec.ename || '     ' || emprec.deptno ||'    '|| emprec.job); 
+    end loop;
+    close mycur;
+end;
+/
+Write PL/SQL code in Cursor to display employee names and salary
+
+declare
+    emprec emp%rowtype;
+    cursor mycur is select * from emp;
+begin
+    open mycur;
+    dbms_output.put_line('empname' || '     ' ||'salary'); 
+    loop
+    fetch mycur into emprec;
+    exit when mycur%NOTFOUND;    
+    dbms_output.put_line(emprec.ename|| '    '|| emprec.sal); 
+    end loop;
+    close mycur;
+end;
+/
+Write PL/SQL code in Procedure to find the Reverse of the  number
+
+declare 
+   
+   n number :=&num;
+   temp number :=0;
+   rev number :=0;
+
+begin
+ dbms_output.put_line(' original : ' || n); 
+    loop
+--       dbms_output.put_line(' x : ' || n); 
+       temp:=MOD(n,10);
+       rev:=(rev*10)+temp;
+       
+--    dbms_output.put_line(' x% : ' || n); 
+      n:=trunc(n/10);
+       if n=0 then exit;
+       end if;    
+    end loop;
+ dbms_output.put_line(' reverse: ' || rev); 
+end;
