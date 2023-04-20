@@ -93,3 +93,91 @@ begin
 end;
 /
 ---------------------------------------------------------------------------------------------------
+
+Create a program to retrieve the number of years of service for a specific employee.
+a. Create a stored function called GET_SERVICE_YRS to retrieve the total number of years
+of service for a specific employee.
+The function should accept the employee ID as a parameter and return the number of years
+of service. Add error handling to account for an invalid employee ID.
+
+ 
+
+b. Invoke the function. You can use the following data:
+EXECUTE DBMS_OUTPUT.PUT_LINE(get_service_yrs(999))
+Hint: The above statement should produce an error message because there is no employee
+with employee ID 999.
+
+ 
+
+EXECUTE DBMS_OUTPUT.PUT_LINE ('Approximately .... ' ||get_service_yrs(7499) || ' years')
+Hint: The above statement should be successful and return the number of years of service
+for employee with employee ID 7499
+
+ 
+
+Make these functions available in a package name EMPPACK
+-----------------------------------------------------------------------------------------------------------------
+create or replace procedure getExp(num in number,enam out varchar2)
+as
+begin
+   select FLOOR((to_date(SYSDATE)-to_date(hiredate))/365)   into  enam from emp where empno=num;
+   dbms_output.put_line(' Ename is :' || enam);
+     -- invoking a procedure
+
+exception
+    when NO_DATA_FOUND then
+         dbms_output.put_line('Error from Procedure . Employee Number Does Not Exist :( ');
+end getExp;
+/
+
+ 
+
+variable nam varchar2(20);
+execute getExp(&id,:nam);
+print nam;
+-------------------------------------------------------------------------------------------------------------------------
+Create a stored procedure called UPD_SAL to update the  salaries
+for a specific job in the EMP table.
+Pass three parameters to the procedure: the job , a new minimum salary, and a new
+maximum salary for the job. Add exception handling to account for an invalid job name in the
+EMP table. Also, raise an exception if the maximum salary supplied is less than the
+minimum salary.
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+create or replace function updateSal(id in NUMBER,max_sal in NUMBER)
+return VARCHAR2
+is
+begin
+     UPDATE emp set sal=max_sal where empno=id;
+     return  'updated sucessfully';
+end;
+/
+
+create or replace function geteSal(jobs in VARCHAR2,max_sal in NUMBER)
+return VARCHAR2
+is
+vsal emp.sal%type;
+valno   emp.empno%type;
+begin
+dbms_output.put_line(' '||jobs);
+select sal,empno into vsal, valno  from emp where  sal=(select Max(sal) from emp where job=jobs);
+dbms_output.put_line(' '||valno);
+if(max_sal<vsal) then
+return 'invalid';
+else
+     return updateSal(valno,max_sal) ;
+      end if;
+ exception
+ when  NO_DATA_FOUND then
+ return  'job not found'; 
+end;
+
+/
+
+declare
+   l_message varchar2(30);
+begin
+   l_message := geteSal('&job',&min);
+dbms_output.put_line(' '||l_message);
+end;
+/
